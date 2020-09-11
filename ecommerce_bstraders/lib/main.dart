@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:developer';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -30,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
-      seconds: 5,
+      seconds: 05,
       navigateAfterSeconds: AfterSplash(),
       image: new Image.asset(
         'assets/icon.png',
@@ -50,8 +54,6 @@ class _MyAppState extends State<MyApp> {
 class AfterSplash extends StatefulWidget {
   @override
   _MyAppsState createState() => _MyAppsState();
-
-
 }
 
 class _MyAppsState extends State<AfterSplash> {
@@ -72,45 +74,34 @@ class _MyAppsState extends State<AfterSplash> {
         supportMultipleWindows: true,
         allowFileURLs: true,
         withLocalUrl: true,
-        scrollBar: false,
+        scrollBar: true,
         appCacheEnabled: true,
       ),
 
     );
   }
 
+  @override
+  void initState() {
+    super.initState();
+     flutterWebviewPlugin.onUrlChanged.listen((String url) {
+     if (url.startsWith('whatsapp:') || url.startsWith('upi://pay')) {
+         // print('Step1:' + url);
+         // log('load Data'+url);
+         // debugPrint("Data");
+         _launchURL(url);
+         flutterWebviewPlugin.stopLoading();
+         flutterWebviewPlugin.reload();
+       }
+
+     });
+
+  }
 }
-
-// WebView(
-// initialUrl: 'https://prakashsales.com/App/',
-// javascriptMode: JavascriptMode.unrestricted,
-// navigationDelegate: (NavigationRequest request)
-// {
-// if (request.url.startsWith('com.phonepe.app'))
-// {
-// print('blocking navigation to $request}');
-// _launchURL('https://my.redirect.url.com');
-// return NavigationDecision.prevent;
-// }
-//
-// print('allowing navigation to $request');
-// return NavigationDecision.navigate;
-// },
-// )
-// class StreamSubscription<WebViewStateChanged> _onStateChanged;
-//       _onStateChanged = flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) async {
-//       if (mounted) {
-//       if (state.url.startsWith('whatsapp:') && state.type == WebViewState.abortLoad) {
-//       if (await canLaunch(state.url)) {
-//       await launch(state.url);
-//       }
-//       }
-//       }
-// });
-
-_launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }}
+ _launchURL(String url) async {
+   if (await canLaunch(url)) {
+     await launch(url);
+   } else {
+     throw 'Could not launch $url';
+   }
+   }

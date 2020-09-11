@@ -1,73 +1,82 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:splashscreen/splashscreen.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:upi_pay/upi_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+String selectedUrl = 'https://prakashsales.com/App/';
+
+
 void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(MaterialApp(
-      home: GetCurrentURLWebView(),
-      debugShowCheckedModeBanner: false,
-      // theme: ThemeData(
-      //   fontFamily: 'Bungee',
-      //   primaryTextTheme: TextTheme(
-      //     title: TextStyle(color: Colors.amberAccent, fontSize: 24),
-      //   ),
-      // )
-  ));
+  runApp(new MyHomePage());
 }
 
-class GetCurrentURLWebView extends StatefulWidget {
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
   @override
-  GetCurrentURLWebViewState createState() {
-    return new GetCurrentURLWebViewState();
-  }
+  _MyHomePageState createState() => new _MyHomePageState();
 }
-class GetCurrentURLWebViewState extends State<GetCurrentURLWebView> {
+
+class _MyHomePageState extends State<MyHomePage> {
+  // Instance of WebView plugin
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
-  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
+
+  // On urlChanged stream
   StreamSubscription<String> _onUrlChanged;
-
   @override
   void initState() {
     super.initState();
-    // _onUrlChanged = flutterWebviewPlugin.onStateChanged.listen((WebViewStateChanged state) async {
-    //   if (mounted) {
-    //     if (state.url.startsWith('whatsapp:') && state.type == WebViewState.abortLoad) {
-    //       if (await canLaunch(state.url)) {
-    //         await launch(state.url);
-    //       }
-    //     }
-    //   }
-    // });
-     _onUrlChanged = flutterWebviewPlugin.onUrlChanged.listen((String url) {
-       if (mounted) {
-         print("Current URL: $url");
-       }
-     });
+
+    flutterWebviewPlugin.close();
+
+
+    // Add a listener to on url changed
+    _onUrlChanged = flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      if (url.startsWith('mailto:')) {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      }
+      else if (url.startsWith('tel:')) {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      } else if (url.startsWith('whatsapp:') || url.startsWith('api.')) {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      }
+    });
   }
 
   @override
   void dispose() {
+    // Every listener should be canceled, the same should be done with this stream.
     _onUrlChanged.cancel();
     flutterWebviewPlugin.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(
-      key: scaffoldKey,
-      url: 'https://prakashsales.com/App/',
-      hidden: true,
-      appBar: AppBar(title: Text("Current Url")),
+    return WebView(
+      initialUrl: selectedUrl,
+
     );
   }
 
 }
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }}

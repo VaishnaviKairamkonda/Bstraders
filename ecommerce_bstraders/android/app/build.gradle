@@ -45,7 +45,7 @@ android {
         applicationId "com.newsoft.ecommerce_bstraders"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 4
+        versionCode 6
         versionName flutterVersionName
     }
     signingConfigs {

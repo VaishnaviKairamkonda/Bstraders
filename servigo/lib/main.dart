@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
-      seconds: 05,
+      seconds: 02,
       navigateAfterSeconds: AfterSplash(),
       image: new Image.asset(
         'assets/icon.png',
@@ -85,13 +85,31 @@ class _MyAppsState extends State<AfterSplash> {
   void initState() {
     super.initState();
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
-      if (url.startsWith('whatsapp:') || url.startsWith('upi://pay')) {
+      if (url.startsWith('mail:') || url.startsWith('tel:')) {
         // print('Step1:' + url);
-        // log('load Data'+url);
+         log('load Data'+url);
         // debugPrint("Data");
         _launchURL(url);
         flutterWebviewPlugin.stopLoading();
         flutterWebviewPlugin.reload();
+      }
+      else  if (url.startsWith('upi://pay')) {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      }
+
+      else if (url.startsWith('whatsapp://') ||url.startsWith ('api.')) {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      }
+      else if(url.startsWith('http://'))
+      {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+
       }
 
     });
@@ -101,7 +119,14 @@ class _MyAppsState extends State<AfterSplash> {
 _launchURL(String url) async {
   if (await canLaunch(url)) {
     await launch(url);
-  } else {
+  }
+  // else {
+  //   const url = 'https://api.whatsapp.com/send?phone=919011904548';
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   }
+  else {
     throw 'Could not launch $url';
   }
+  // }
 }

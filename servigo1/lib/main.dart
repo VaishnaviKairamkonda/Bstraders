@@ -17,7 +17,7 @@ void main() {
       theme: ThemeData(
         fontFamily: 'Bungee',
         primaryTextTheme: TextTheme(
-          title: TextStyle(color: Colors.amberAccent, fontSize: 24),
+          title: TextStyle(color: Colors.black38, fontSize: 24),
         ),
       )
   ));
@@ -34,16 +34,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
-      seconds: 01,
+      seconds: 02,
       navigateAfterSeconds: AfterSplash(),
       image: new Image.asset(
         'assets/icon.png',
         width: 100,
         height: 100,
       ),
-      backgroundColor: Colors.amber,
+      backgroundColor: Colors.black12,
       photoSize: 100.0,
-      loaderColor: Colors.amberAccent,
+      loaderColor: Colors.black38,
 
     );
 
@@ -65,7 +65,7 @@ class _MyAppsState extends State<AfterSplash> {
       child: WebviewScaffold(
         // Enter your custom url
 
-        url: "https://prakashsales.com/App/",
+        url: "https://servigo.in/",
         // invalidUrlRegex: '^whatsapp:',
         withJavascript: true,
         withLocalStorage: true,
@@ -84,25 +84,49 @@ class _MyAppsState extends State<AfterSplash> {
   @override
   void initState() {
     super.initState();
-     flutterWebviewPlugin.onUrlChanged.listen((String url) {
-     if (url.startsWith('whatsapp:') || url.startsWith('upi://pay')) {
-         // print('Step1:' + url);
-         // log('load Data'+url);
-         // debugPrint("Data");
-         _launchURL(url);
-         flutterWebviewPlugin.stopLoading();
-         flutterWebviewPlugin.reload();
-       }
+    flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      if (url.startsWith('mailto:') || url.startsWith('tel:')) {
+        // print('Step1:' + url);
+        // log('load Data'+url);
+        // debugPrint("Data");
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      }
+      else  if (url.startsWith('upi://pay')) {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      }
 
+       else if (url.startsWith('whatsapp://') ||url.startsWith ('api.')) {
+        _launchURL(url);
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+      }
+       else if(url.startsWith('http://'))
+         {
+           _launchURL(url);
+           flutterWebviewPlugin.stopLoading();
+           flutterWebviewPlugin.reload();
 
-     });
+         }
+
+    });
 
   }
 }
- _launchURL(String url) async {
-   if (await canLaunch(url)) {
-     await launch(url);
-   } else {
-     throw 'Could not launch $url';
-   }
-   }
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  }
+  // else {
+  //   const url = 'https://api.whatsapp.com/send?phone=919011904548';
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   }
+    else {
+      throw 'Could not launch $url';
+    }
+  // }
+}

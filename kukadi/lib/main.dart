@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
@@ -6,8 +5,6 @@ import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io';
-
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MaterialApp(
@@ -64,7 +61,7 @@ class _MyAppsState extends State<AfterSplash> {
       child: WebviewScaffold(
         // Enter your custom url
 
-        url: "https://servigo.in/",
+        url: "https://kukadi.newsoftprojects.com/App/",
         // invalidUrlRegex: '^whatsapp:',
         withJavascript: true,
         withLocalStorage: true,
@@ -79,28 +76,28 @@ class _MyAppsState extends State<AfterSplash> {
 
     );
   }
-
+/*
   @override
   void initState() {
     super.initState();
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
       log('load Data '+ url);
       if (url.contains('mail') ) {
-         print(url);
+        print(url);
         _launchURL("mailto:servigoservices@gmail.com");
-         flutterWebviewPlugin.stopLoading();
-         flutterWebviewPlugin.reload();
-         // flutterWebviewPlugin.close();
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+        // flutterWebviewPlugin.close();
       }
       else if(url.startsWith('tel:') || url.contains('upi://pay') )
-        {
-          _launchURL(url);
-          log('load  '+ url);
+      {
+        _launchURL(url);
+        log('load  '+ url);
 
-          flutterWebviewPlugin.stopLoading();
-          flutterWebviewPlugin.reload();
-          // flutterWebviewPlugin.close();
-        }
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+        // flutterWebviewPlugin.close();
+      }
       else  if (url.contains('fb')) {
         _launchURL("fb://sharer.php?u=https://servigo.in/ServigoTodaysMenu.php");
         flutterWebviewPlugin.stopLoading();
@@ -112,9 +109,9 @@ class _MyAppsState extends State<AfterSplash> {
         _launchURL(url);
         flutterWebviewPlugin.reload();
         flutterWebviewPlugin.stopLoading();
-       }
+      }
     });
-  }
+  }*/
 }
 _launchURL(String url) async {
   log('In Function '+ url);

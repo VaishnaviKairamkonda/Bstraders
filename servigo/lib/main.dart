@@ -86,21 +86,30 @@ class _MyAppsState extends State<AfterSplash> {
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
       log('load Data '+ url);
       if (url.contains('mail') ) {
-         print(url);
+        print(url);
         _launchURL("mailto:servigoservices@gmail.com");
-         flutterWebviewPlugin.stopLoading();
-         flutterWebviewPlugin.reload();
-         // flutterWebviewPlugin.close();
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+        // flutterWebviewPlugin.close();
       }
       else if(url.startsWith('tel:') || url.contains('upi://pay') )
-        {
-          _launchURL(url);
-          log('load  '+ url);
+      {
+        _launchURL(url);
+        log('load  '+ url);
 
-          flutterWebviewPlugin.stopLoading();
-          flutterWebviewPlugin.reload();
-          // flutterWebviewPlugin.close();
-        }
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+        // flutterWebviewPlugin.close();
+      }
+      else if(url.startsWith('http://servigo.in/pgResponse.php?OrderId=?') )
+      {
+        _launchURL(url);
+        log('load  '+ url);
+
+        flutterWebviewPlugin.stopLoading();
+        flutterWebviewPlugin.reload();
+        // flutterWebviewPlugin.close();
+      }
       else  if (url.contains('fb')) {
         _launchURL("fb://sharer.php?u=https://servigo.in/ServigoTodaysMenu.php");
         flutterWebviewPlugin.stopLoading();
@@ -112,7 +121,7 @@ class _MyAppsState extends State<AfterSplash> {
         _launchURL(url);
         flutterWebviewPlugin.reload();
         flutterWebviewPlugin.stopLoading();
-       }
+      }
     });
   }
 }

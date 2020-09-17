@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:developer';
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -85,48 +84,56 @@ class _MyAppsState extends State<AfterSplash> {
   void initState() {
     super.initState();
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
-      if (url.startsWith('mailto:') || url.startsWith('tel:')) {
-        // print('Step1:' + url);
-        // log('load Data'+url);
-        // debugPrint("Data");
+      log('load Data '+ url);
+      if (url.contains('mail') ) {
+         print(url);
+        _launchURL("mailto:servigoservices@gmail.com");
+         flutterWebviewPlugin.stopLoading();
+         flutterWebviewPlugin.reload();
+         // flutterWebviewPlugin.close();
+      }
+      else if(url.startsWith('tel:') || url.contains('upi://pay') )
+        {
+          _launchURL(url);
+          log('load  '+ url);
+
+          flutterWebviewPlugin.stopLoading();
+          flutterWebviewPlugin.reload();
+          // flutterWebviewPlugin.close();
+        }
+      else if(url.startsWith('pgResponse.php?OrderId=') )
+      {
         _launchURL(url);
+        log('load  '+ url);
+
         flutterWebviewPlugin.stopLoading();
         flutterWebviewPlugin.reload();
+        // flutterWebviewPlugin.close();
       }
-      else  if (url.startsWith('upi://pay')) {
-        _launchURL(url);
+      else  if (url.contains('fb')) {
+        _launchURL("fb://sharer.php?u=https://servigo.in/ServigoTodaysMenu.php");
         flutterWebviewPlugin.stopLoading();
         flutterWebviewPlugin.reload();
-      }
+        // flutterWebviewPlugin.close();
 
-       else if (url.startsWith('whatsapp://') ||url.startsWith ('api.')) {
+      }
+      else if (url.contains('whatsapp://send') ||url.contains('whatsapp://wa.me') ) {
         _launchURL(url);
-        flutterWebviewPlugin.stopLoading();
         flutterWebviewPlugin.reload();
-      }
-       else if(url.startsWith('http://'))
-         {
-           _launchURL(url);
-           flutterWebviewPlugin.stopLoading();
-           flutterWebviewPlugin.reload();
-
-         }
-
+        flutterWebviewPlugin.stopLoading();
+       }
     });
-
   }
 }
 _launchURL(String url) async {
+  log('In Function '+ url);
   if (await canLaunch(url)) {
+    log('In if '+ url);
     await launch(url);
   }
-  // else {
-  //   const url = 'https://api.whatsapp.com/send?phone=919011904548';
-  //   if (await canLaunch(url)) {
-  //     await launch(url);
-  //   }
-    else {
-      throw 'Could not launch $url';
-    }
-  // }
+  else {
+    log('In trow '+ url);
+    throw 'Could not launch $url';
+  }
 }
+

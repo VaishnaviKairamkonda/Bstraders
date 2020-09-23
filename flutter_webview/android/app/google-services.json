@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "817799207693",
+    "firebase_url": "https://flutterwebview-1080f.firebaseio.com",
+    "project_id": "flutterwebview-1080f",
+    "storage_bucket": "flutterwebview-1080f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:817799207693:android:51e68f2f14aec2f4002e44",
+        "android_client_info": {
+          "package_name": "com.newsoft.flutter_webview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "817799207693-5qk0t9k17eu0jnsam4niqnut0i9pmvr7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd9nneuc3YQS3XPlQrj1i5SOqLeJV2zOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "817799207693-5qk0t9k17eu0jnsam4niqnut0i9pmvr7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

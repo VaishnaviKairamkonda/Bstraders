@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "683523120376",
+    "firebase_url": "https://fir-messaging-2db8b.firebaseio.com",
+    "project_id": "fir-messaging-2db8b",
+    "storage_bucket": "fir-messaging-2db8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683523120376:android:f933886303ed2616c92f0d",
+        "android_client_info": {
+          "package_name": "com.newsoft.irrigation.push_notification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683523120376-u59urpjlitijduu3ph3l4ft8gu702d5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB7Fwr1f9A_KFBNLhbiVlcACHCckR_saU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683523120376-u59urpjlitijduu3ph3l4ft8gu702d5n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

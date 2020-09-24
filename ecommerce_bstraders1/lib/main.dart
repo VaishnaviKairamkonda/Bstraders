@@ -1,11 +1,14 @@
+import 'dart:async';
 import 'dart:developer';
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MaterialApp(
@@ -56,7 +59,6 @@ class AfterSplash extends StatefulWidget {
 class _MyAppsState extends State<AfterSplash> {
   final flutterWebviewPlugin = new FlutterWebviewPlugin();
 
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -78,40 +80,29 @@ class _MyAppsState extends State<AfterSplash> {
 
     );
   }
-  SharedPreferences prefs;
 
   @override
   void initState() {
-
     super.initState();
-    flutterWebviewPlugin.onUrlChanged.listen((String url) {
+     flutterWebviewPlugin.onUrlChanged.listen((String url) {
+     if (url.startsWith('whatsapp:') || url.startsWith('upi://pay')) {
+         // print('Step1:' + url);
+         // log('load Data'+url);
+         // debugPrint("Data");
+         _launchURL(url);
+         flutterWebviewPlugin.stopLoading();
+         flutterWebviewPlugin.reload();
+       }
 
-      log('load Data '+ url);
-      Future<String> getPagesData(int page) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        return prefs.getString('myData$page');
-      }
-      if (url.startsWith('whatsapp:') || url.startsWith('upi://pay')) {
-        // print('Step1:' + url);
-        // log('load Data'+url);
-        // debugPrint("Data");
-        _launchURL(url);
-        flutterWebviewPlugin.stopLoading();
-        flutterWebviewPlugin.reload();
-      }
-    });
 
-  }
+     });
 
-  Future<String> setPagesData(int page, String url) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('myData$page', url);
   }
 }
-_launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
-}
+ _launchURL(String url) async {
+   if (await canLaunch(url)) {
+     await launch(url);
+   } else {
+     throw 'Could not launch $url';
+   }
+   }

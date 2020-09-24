@@ -28,6 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 def keystorePropertiesFile = rootProject.file('keystore.properties')
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 28
 
@@ -42,9 +43,9 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.newsoft.ecommerce_bstraders"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 28
-        versionCode 7
+        versionCode 6
         versionName flutterVersionName
     }
     signingConfigs {

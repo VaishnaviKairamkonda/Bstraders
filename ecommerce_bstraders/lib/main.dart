@@ -10,6 +10,7 @@ void main() {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MaterialApp(
       home: MyApp(),
+
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Bungee',
@@ -21,13 +22,13 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
+
   @override
   _MyAppState createState() => new _MyAppState();
 
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return new SplashScreen(
@@ -78,19 +79,16 @@ class _MyAppsState extends State<AfterSplash> {
 
     );
   }
-  SharedPreferences prefs;
 
   @override
   void initState() {
+    _update();
 
     super.initState();
-    flutterWebviewPlugin.onUrlChanged.listen((String url) {
+    flutterWebviewPlugin.onUrlChanged.listen((String url) async {
 
       log('load Data '+ url);
-      Future<String> getPagesData(int page) async {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        return prefs.getString('myData$page');
-      }
+      _add(context,url);
       if (url.startsWith('whatsapp:') || url.startsWith('upi://pay')) {
         // print('Step1:' + url);
         // log('load Data'+url);
@@ -103,15 +101,22 @@ class _MyAppsState extends State<AfterSplash> {
 
   }
 
-  Future<String> setPagesData(int page, String url) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('myData$page', url);
-  }
 }
 _launchURL(String url) async {
   if (await canLaunch(url)) {
     await launch(url);
+
   } else {
     throw 'Could not launch $url';
   }
+}
+void _add(BuildContext context, String url) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.setString('url', url);
+  log('load shared url Data '+ url);
+
+}
+void _update() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  prefs.getString('url');
 }
